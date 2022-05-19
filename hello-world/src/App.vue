@@ -1,31 +1,37 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld :msg="message"/>
-    <input type="text" v-model="message" />
-    <button @click="alertMessage">Alert</button>
-  </div>
+  <h1>Vue_Aceable_Project</h1>
+  <input type='text' v-model='filterText' />
+  <ul>
+    <li v-for='(pokemon, index) in pokemonStore.filteredList' :key="`poke-${index}`">
+      #{{ pokemon.entry_number }} - {{ pokemon.pokemon_species.name }}
+    </li>
+  </ul>
 </template>
 
-<script>
-import HelloWorld from './components/HelloWorld.vue'
-export default {
-  name: 'app',
-  components: {
-    HelloWorld
-  },
-  data(){
-    return {
-      message: 'Hello World!'
-    }
-  },
-  methods: {
-    alertMessage(){
-      alert(this.message)
-    }
-  }
-}
+<script setup>
+import { reactive, ref, computed, onMounted } from 'vue'
 
+
+const filterText = ref('')
+
+const pokemonStore = reactive({
+  list: [],
+  filteredList: computed(() =>
+    pokemonStore.List.filter(pokemon =>
+      pokemon.pokemon_species.name.includes(filterText.value)
+    )
+  )
+})
+
+onMounted(async () => {
+  const pokeData = await fetch('https://pokeapi.co/api/v2/pokedex/2/').then(
+    Response => Response.json()
+    
+  )
+
+  pokemonStore.list = pokeData.pokemon_entries
+
+})
 </script>
 
 <style>
@@ -34,7 +40,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: black;
   margin-top: 60px;
 }
 </style>
