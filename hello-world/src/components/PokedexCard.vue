@@ -19,7 +19,7 @@ const displayName = computed(() => {
 
 
 <template>
-    <li> {{ number }} - {{ displayName }} </li>
+    <li> <button > {{ number }}.  {{ displayName }} </button> </li>
 </template>
 
 

@@ -5,7 +5,8 @@
     <PokedexCard v-for="(pokemon, index) in pokemonStore.filteredList" 
       :key="`poke-${index}`"
       :name="pokemon.pokemon_species.name"
-      :number="pokemon.entry_number" />
+      :number="pokemon.entry_number" 
+    />
   </ul>
 </template>
 
@@ -27,9 +28,9 @@ const filtertext = ref('')
 
 onMounted(async () => {
   const pokeData = await fetch('https://pokeapi.co/api/v2/pokedex/2/').then(
-    Response => Response.json()
+    Response => Response.json(),
   )
-
+  console.log(pokeData)
   pokemonStore.list = pokeData.pokemon_entries
 })
 
@@ -41,7 +42,7 @@ onMounted(async () => {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: black;
+  color: blue;
   margin-top: 60px;
 }
 </style>
