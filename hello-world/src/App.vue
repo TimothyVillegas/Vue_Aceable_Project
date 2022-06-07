@@ -1,37 +1,38 @@
 <template>
-  <h1>Vue_Aceable_Project</h1>
-  <input type='text' v-model='filterText' />
+  <h1>Hello_World_2.0</h1>
+  <input type='text' v-model='filtertext' />
   <ul>
-    <li v-for='(pokemon, index) in pokemonStore.filteredList' :key="`poke-${index}`">
-      #{{ pokemon.entry_number }} - {{ pokemon.pokemon_species.name }}
-    </li>
+    <PokedexCard v-for="(pokemon, index) in pokemonStore.filteredList" 
+      :key="`poke-${index}`"
+      :name="pokemon.pokemon_species.name"
+      :number="pokemon.entry_number" />
   </ul>
 </template>
 
 <script setup>
-import { reactive, ref, computed, onMounted } from 'vue'
+import {reactive ,ref, computed, onMounted } from 'vue';
+import PokedexCard from './components/PokedexCard.vue'
 
-
-const filterText = ref('')
 
 const pokemonStore = reactive({
-  list: [],
-  filteredList: computed(() =>
-    pokemonStore.List.filter(pokemon =>
-      pokemon.pokemon_species.name.includes(filterText.value)
-    )
-  )
+   list: [],
+   filteredList: computed(() =>
+      pokemonStore.list.filter(pokemon =>
+        pokemon.pokemon_species.name.includes(filtertext.value)
+      )
+    ),
 })
+
+const filtertext = ref('')
 
 onMounted(async () => {
   const pokeData = await fetch('https://pokeapi.co/api/v2/pokedex/2/').then(
     Response => Response.json()
-    
   )
 
   pokemonStore.list = pokeData.pokemon_entries
-
 })
+
 </script>
 
 <style>
@@ -44,3 +45,4 @@ onMounted(async () => {
   margin-top: 60px;
 }
 </style>
+
