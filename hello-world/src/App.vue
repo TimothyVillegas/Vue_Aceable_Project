@@ -1,5 +1,5 @@
 <template>
-  <h1>Hello_World_2.0</h1>
+  <h1>Pokedex App</h1>
   <input type='text' v-model='filtertext' />
   <ul>
     <PokedexCard v-for="(pokemon, index) in pokemonStore.filteredList" 
@@ -30,7 +30,11 @@ onMounted(async () => {
   const pokeData = await fetch('https://pokeapi.co/api/v2/pokedex/2/').then(
     Response => Response.json(),
   )
+  const pokemonInformation = await fetch('https://pokeapi.co/api/v2/pokemon?offset=0&limit=151').then(
+    Response => Response.json(),
+  )
   console.log(pokeData)
+  console.log(pokemonInformation)
   pokemonStore.list = pokeData.pokemon_entries
 })
 
@@ -42,7 +46,7 @@ onMounted(async () => {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: blue;
+  color: red;
   margin-top: 60px;
 }
 </style>
